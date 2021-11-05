@@ -30,3 +30,5 @@ app.get('/about-us', (req, res) => {
 app.use((req, res)=> {
   res.status(404).sendFile('./views/404.html', {root: __dirname });
 })
+
+// server.js 파일과 비교하면, express 환경 사용 시 코드가 상당히 깔끔해짐을 느낄 수 있다. 

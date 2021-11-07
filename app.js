@@ -3,30 +3,37 @@ const express = require('express');
 //express app
 const app = express();
 
+app.set('view engine', 'ejs');
 //listen for request
 app.listen(3000);
 
 // get method (url, (req, res) => {})
 app.get('/', (req, res)=> {
-  // html 태그 띄워주기
-  // res.send('<p>Home page</p>');
+   const blogs = [{
+       title: 'Yoshi finds eggs',
+       snippet: 'Lorem ipsum dolor sit amet consectetur'
+     },
+     {
+       title: 'Mario finds stars',
+       snippet: 'Lorem ipsum dolor sit amet consectetur'
+     },
+     {
+       title: 'How to defeat bowser',
+       snippet: 'Lorem ipsum dolor sit amet consectetur'
+     },
+   ];
 
-  //직접 만들어놓은 html 파일 연결하기 (상대경로 x, root 폴더명 명시해주기.)
-  res.sendFile('./views/index.html', { root : __dirname});
+  res.render('index', { title : 'Home', blogs});
 });
 
 app.get('/about', (req, res) => {
-  res.sendFile('./views/about.html', {root: __dirname});
+  res.render('about', {title: 'About'});
 });
 
-// 브라우저 network 검사 시, statusCode 는 302로 노출, location 은 /about 로 노출된다. 
-app.get('/about-us', (req, res) => {
-  // server.js에서는 switch, statusCode, setHeader 로 처리해주었던 부분을 express 환경에서는 redirect함수로 쉽게 처리
-  res.redirect('/about');
+app.get('/create', (req, res) =>{
+  res.render('create', {title : 'Create a new blog'});
 });
 
-// 404 처리 => js는 top-bottom 으로 코드를 읽기 때문에 가장 하단에 작성해야 default 처리 가능 
-// 따라서, 위치가 중요하다. 또한 status(404)로 statusCode 404임을 명시해주자. 
 app.use((req, res)=> {
-  res.status(404).sendFile('./views/404.html', {root: __dirname });
-})
+  res.status(404).render('404', {title : '404'});
+});

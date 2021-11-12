@@ -7,6 +7,13 @@ app.set('view engine', 'ejs');
 //listen for request
 app.listen(3000);
 
+app.use((req, res) => {
+  console.log("new request made:");
+  console.log("host:", req.hostname);
+  console.log("path:", req.path);
+  console.log("method:", req.method);
+});
+
 // get method (url, (req, res) => {})
 app.get('/', (req, res)=> {
    const blogs = [{
